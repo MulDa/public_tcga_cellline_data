@@ -41,7 +41,6 @@ Only samples with both Illumina HumanMethylation450K (HM450K) array data and RNA
 
 ### Expression data (`TCGA-PROJECTnormalized_expression_data_picked_genes.RData`)
 
-Expression matrices were generated with the pipeline implemented in `process_tcga_data.R`:
 
 - RNA-seq count data were queried with `TCGAbiolinks::GDCquery` and downloaded per project.
 - Counts were normalized in R using **DESeq2** (variance-stabilizing size factor normalization).
@@ -57,8 +56,6 @@ save(normalized_counts,
 In all downstream analyses and figures, `MTAP_log2` was defined as `log2(MTAP + 1)` from this normalized matrix.
 
 ### Methylation data (`TCGA-PROJECT_MTAP.RData`)
-
-Methylation processing followed the pipeline in `process_tcga_data_idat.R` and related scripts:
 
 - HM450K IDAT files were downloaded via `TCGAbiolinks` for each TCGA project.
 - Raw intensities were imported using **minfi** (`read.metharray.exp`), and poor-quality probes were filtered using detection p-values (`detectionP < 0.01` in at least 80% of samples).
@@ -82,7 +79,7 @@ These `.RData` objects were then merged with the normalized MTAP expression to c
 ### Sample filtering and matching
 
 - Only `Primary Tumor` and `Solid Tissue Normal` samples were retained for the case–control comparisons in the boxplots and correlation plots.
-- Sample IDs were harmonized by truncating barcodes (e.g. to the first 16 characters) and matching `sample.submitter_id` across expression and methylation tables.
+- Sample IDs were harmonized using matching barcodes across expression and methylation tables.
 - Matched samples were combined into a single per-project table containing:
   - `sample.submitter_id`
   - `project`
